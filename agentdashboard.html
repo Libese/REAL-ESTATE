@@ -1,0 +1,103 @@
+
+<?php
+session_start();
+
+// Check if the user is logged in and get the username
+if (isset($_SESSION['username'])) {
+  $username = $_SESSION['username'];
+} else {
+  // Redirect to the login page if the user is not logged in
+  header("Location: login.php");
+  exit();
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Agent Dashboard</title>
+	<style type="text/css">
+		form {
+			display: flex;
+			flex-direction: column;
+			max-width: 500px;
+			margin: 0 auto;
+		}
+
+		input, select {
+			margin: 5px 0;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+
+		input[type="submit"] {
+			background-color: #4CAF50;
+			color: white;
+			font-size: 16px;
+			padding: 10px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.analytics {
+			display: flex;
+			justify-content: space-between;
+			max-width: 500px;
+			margin: 20px auto;
+		}
+
+		.analytics p {
+			font-size: 16px;
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+	<h1>Agent Dashboard</h1>
+
+	<p>Welcome, <?php echo $username; ?>!</p>
+
+	<form action="post-property.php" method="post" enctype="multipart/form-data">
+		<label for="client_name">Client Full Name:</label>
+		<input type="text" name="client_name" id="client_name">
+
+		<label for="phone_number">Client Phone Number:</label>
+		<input type="tel" name="phone_number" id="phone_number">
+
+		<label for="photo">Property Photo (JPEG, max 2MB):</label>
+		<input type="file" name="photo" id="photo" accept="image/jpeg" max-size="2097152">
+
+		<label for="type">Property Type:</label>
+		<select name="type" id="type">
+			<option value="rent">For Rent</option>
+			<option value="sale">For Sale</option>
+		</select>
+
+		<label for="location">Location:</label>
+		<input type="text" name="location" id="location">
+
+		<label for="price">Price:</label>
+		<input type="text" name="price" id="price">
+
+		<label for="bedrooms">Bedrooms:</label>
+		<input type="number" name="bedrooms" id="bedrooms">
+
+		<label for="bathrooms">Bathrooms:</label>
+		<input type="number" name="bathrooms" id="bathrooms">
+
+		<label for="garage">Garage:</label>
+		<input type="number" name="garage" id="garage">
+
+		<input type="submit" value="Post Property">
+	</form>
+
+	<div class="analytics">
+		<p>Number of properties posted: <?php echo $num_properties; ?></p>
+		<p>Number of houses/properties sold: <?php echo $num_sold; ?></p>
+	</div>
+</body>
+</html>
